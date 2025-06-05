@@ -25,7 +25,7 @@ public:
             return 0;
         }
         visited[r][c]=1;
-        grid[r][c]=0;
+       
         int area = 1;
         
         for(auto it:dir){
