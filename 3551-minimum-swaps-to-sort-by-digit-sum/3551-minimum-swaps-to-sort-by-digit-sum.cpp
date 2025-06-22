@@ -19,10 +19,7 @@ public:
             arr.push_back({sum, dum});
         }
         sort(arr.begin(), arr.end(), comparator);
-        for (auto it : arr) {
-            cout << it.first << " " << it.second;
-            cout << endl;
-        }
+        
         int swaps = 0;
         unordered_map<int, int> mpp;
         for (int i = 0; i < arr.size(); i++) {
