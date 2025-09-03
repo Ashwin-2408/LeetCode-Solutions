@@ -10,7 +10,7 @@ public:
             negative=true;
         }
         long n1=abs((long)n);
-        while(n1>1){
+        while(n1>0){
             if(n1%2==1){
                 carry*=x;
             }
