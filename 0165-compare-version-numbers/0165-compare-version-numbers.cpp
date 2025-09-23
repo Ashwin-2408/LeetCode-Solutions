@@ -1,57 +1,62 @@
 class Solution {
 public:
     int compareVersion(string version1, string version2) {
-        queue<int> q1,q2;
+        int i=0;
+        int j=0;
+        vector<string> v1,v2;
         string temp="";
-        for(auto it: version1){
-            if(it=='.'){
-                q1.push(stoi(temp));
-                temp="";
+        while(i<=version1.size()){
+            if(i==version1.size() || version1[i]=='.'){
+                v1.push_back(temp);
+                temp.clear();
             }
             else{
-                temp+=it;
+                temp.push_back(version1[i]);
             }
+            i++;
+            
 
         }
-        q1.push(stoi(temp));
-        temp="";
-        for(auto it: version2){
-            if(it=='.'){
-                q2.push(stoi(temp));
-                temp="";
+        while(j<=version2.size()){
+            if(j==version2.size() || version2[j]=='.'){
+                v2.push_back(temp);
+                temp.clear();
             }
             else{
-                temp+=it;
+                temp.push_back(version2[j]);
             }
+            j++;
+            
 
         }
-        q2.push(stoi(temp));
-        if(q1.size()!=q2.size()){
-            if(q1.size()>q2.size()){
-                for(int i=0;i<=q1.size()-q2.size();i++){
-                    q2.push(0);
-                }
-            }
-            else{
-                for(int i=0;i<=q2.size()-q1.size();i++){
-                    q1.push(0);
-                }
-
-            }
-        }
-        cout << q1 .size() << q2.size();
-        while(!q1.empty() && !q2.empty()){
-            if(q1.front()>q2.front()){
+        i=0;
+        j=0;
+        while(i<v1.size() && j<v2.size()){
+            if(stoi(v1[i])>stoi(v2[j])){
                 return 1;
             }
-            else if(q2.front()>q1.front()){
+            else if(stoi(v1[i])<stoi(v2[j])){
                 return -1;
             }
             else{
-                q1.pop();
-                q2.pop();
+                i++;
+                j++;
             }
+
+        }
+        while(i<v1.size()){
+            if(stoi(v1[i])>0){
+                return 1;
+            }
+            i++;
+        }
+        while(j<v2.size()){
+            if(stoi(v2[j])>0){
+                return -1;
+            }
+            j++;
         }
         return 0;
+        
     }
 };
