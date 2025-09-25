@@ -1,28 +1,24 @@
 class Solution {
 public:
     
-    vector<vector<int>> dp;
+    unordered_map<int,unordered_map<int,int>> dp;
     int minimumTotal(vector<vector<int>>& triangle) {
-        
         int n=triangle.size();
-        dp.resize(n,vector<int>(n,-1));
-        return smallest_path(triangle,0,0);;
+        return recurse(triangle,0,0,n);
+     
         
     }
-    int smallest_path(vector<vector<int>>&triangle,int level,int i){
-        
-        if(level==triangle.size()){
-            
+    int recurse(vector<vector<int>> & triangle,int i,int j,int n){
+        if(i==n){
+           
             return 0;
         }
-        if(i>=triangle[level].size()){
-            return INT_MAX;
+        if(dp[i].count(j)){
+            return dp[i][j];
         }
-        if(dp[level][i]!=-1){
-            return dp[level][i];
-        }
-        return dp[level][i]= triangle[level][i]+ min(smallest_path(triangle,level+1,i),smallest_path(triangle,level+1,i+1));
+        int sum=triangle[i][j];
+        return dp[i][j]=sum+ min(recurse(triangle,i+1,j,n),recurse(triangle,i+1,j+1,n));
         
-        
+
     }
 };
