@@ -11,40 +11,39 @@
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        vector<TreeNode*> ancestors1,ancestors2;
-        find_ancestors(root,p,ancestors1);
-        find_ancestors(root,q,ancestors2);
+        vector<TreeNode*> pnodes,qnodes;
+        lca(root,p,pnodes);
+        lca(root,q,qnodes);
         int i=0;
-        TreeNode* ans=root;
-        while(i<ancestors1.size() && i < ancestors2.size()){
-            if(ancestors1[i]==ancestors2[i]){
-                ans=ancestors1[i];
+        TreeNode* ancestor=nullptr;
+        while(i<pnodes.size() && i<qnodes.size()){
+            if(pnodes[i]==qnodes[i]){
+                ancestor=pnodes[i];
+            }
+            else{
+                break;
             }
             i++;
         }
-        return ans;
+        return ancestor;
 
         
-        
     }
-    bool find_ancestors(TreeNode* root,TreeNode* target,vector<TreeNode*>&ancestors){
+    bool lca(TreeNode* root,TreeNode*p,vector<TreeNode*>& nodes){
         if(root==nullptr){
             return false;
         }
-        ancestors.push_back(root);
-        if(root==target){
-            
-            return true ;
-        }
-       
-        
-        if( find_ancestors(root->left,target,ancestors) ||find_ancestors(root->right,target,ancestors)){
+        nodes.push_back(root);
+        if(root==p){
             return true;
         }
-        ancestors.pop_back();
+        
+        if(lca(root->left,p,nodes) || lca(root->right,p,nodes)){
+            return true;
+        }
+        nodes.pop_back();
         return false;
-        
-        
-        
+
+
     }
 };
