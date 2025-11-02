@@ -1,77 +1,61 @@
-class Node {
+class Node{
     public:
-    Node* Links[26];
-    bool flag=false;
+        bool isend;
+        Node* links[26];
 
-    void put(char c,Node* node){
-        Links[c-'a']=node;
-    }
-    Node* get(char c){
-        return Links[c-'a'];
-    }
-    void set_end(Node* node){
-        node->flag=true;
+        Node(){
+            isend=false;
+            for(int i=0;i<26;i++){
+                links[i]=nullptr;
+            }
 
-    }
-    bool contains_key(char c){
-        return Links[c-'a']!=nullptr;
-    }
+        }
 
 };
-
-
 class Trie {
-    private:
-     Node* root;
 public:
+    Node* root;
     Trie() {
-         root=new Node();
+        root=new Node();
+        
     }
     
     void insert(string word) {
         Node* curr=root;
-        for(int i=0;i<word.size();i++){
-            if(!curr->contains_key(word[i])){
-            curr->put(word[i],new Node());
-            
+        for(auto it: word){
+            if(!curr->links[it-'a']){
+                Node* new_node=new Node();
+                curr->links[it-'a']=new_node;
             }
-            curr=curr->get(word[i]);
+            curr=curr->links[it-'a'];
         }
-        curr->set_end(curr);
-        
-        
+        curr->isend=true;
     }
     
     bool search(string word) {
-        Node* curr = root;
-        for(auto it :word){
-            if(curr->contains_key(it)){
-                curr=curr->get(it);
-
-            }
-            else{
+        Node* curr=root;
+        for(auto it: word){
+            if(!curr->links[it-'a']){
                 return false;
             }
-            
+            curr=curr->links[it-'a'];
+
         }
-        if(curr->flag==true){
+        if(curr->isend){
             return true;
         }
-        return false;
+        return false;;
         
     }
     
     bool startsWith(string prefix) {
-         Node* curr = root;
-        for(auto it :prefix){
-            if(curr->contains_key(it)){
-                curr=curr->get(it);
-
-            }
-            else{
+        Node* curr=root;
+        for(auto it: prefix){
+            if(!curr->links[it-'a']){
                 return false;
             }
-            
+            curr=curr->links[it-'a'];
+
         }
         return true;
         
