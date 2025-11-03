@@ -1,30 +1,29 @@
 class Solution {
 public:
     int minCost(string colors, vector<int>& neededTime) {
-        int ans=0;
-        char alpha=colors[0];
-        int maximum_value=neededTime[0];
-        int curr_sum=neededTime[0];
+        int cost=0;
+        int curr_min=neededTime[0];
+        int count=1;
         for(int i=1;i<colors.size();i++){
-            if(colors[i]==alpha){
-                maximum_value=max(neededTime[i],maximum_value);
-                curr_sum+=neededTime[i];
+            if(colors[i]!=colors[i-1]){
+                if(count>1){
+                    cost+=curr_min;
+
+                }
+                curr_min=neededTime[i];
+                count=1;
 
             }
             else{
-                
-                ans+=(curr_sum-maximum_value);
-                
-                alpha=colors[i];
-                curr_sum=neededTime[i];
-                maximum_value=neededTime[i];
+                count++;
+                curr_min=min(curr_min,neededTime[i]);
             }
-            cout << ans;
+
         }
-        
-        ans+=(curr_sum-maximum_value);
-            
-        return ans;
+        if(count>1){
+            cost+=curr_min;
+        }
+        return cost;
         
     }
 };
