@@ -1,25 +1,27 @@
 class Solution {
 public:
-    vector<vector<int>> dp;
+    
     int change(int amount, vector<int>& coins) {
-        dp.resize(coins.size(),vector<int> (amount+1,-1));
-        return recurse(coins,amount,0);
-        
-    }
-    int recurse(vector<int>& coins,int amount,int index){
-        if(amount==0){
-            return 1;
-        }
-        if(index>=coins.size()){
-            return 0;
-        }
-        if(dp[index][amount]!=-1){
-            return dp[index][amount];
-        }
-        if(coins[index]<=amount){
-            return dp[index][amount]=recurse(coins,amount-coins[index],index)+recurse(coins,amount,index+1);
+        vector<vector<long long>> dp;
+        dp.resize(coins.size()+1,vector<long long> (amount+1,0));
+        for(int i=0;i<coins.size()+1;i++){
+            dp[i][0]=1;
 
         }
-        return dp[index][amount]=recurse(coins,amount,index+1);
+        for(int i=1;i<coins.size()+1;i++){
+            for(int j=1;j<amount+1;j++){
+                if(coins[i-1]<=j){
+                    dp[i][j]=dp[i][j-coins[i-1]]+dp[i-1][j];
+
+                }
+                else{
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
+        }
+        
+        return dp[coins.size()][amount];
+        
     }
+    
 };
