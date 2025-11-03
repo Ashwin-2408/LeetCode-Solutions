@@ -1,21 +1,29 @@
 class Solution {
 public:
+    vector<vector<int>> dp;
     int coinChange(vector<int>& coins, int amount) {
-        vector<vector<int>> dp(coins.size()+1,vector<int>(amount+1,0));
-        for(int i=0;i<amount+1;i++){
-            dp[0][i]=INT_MAX-1;
+        dp.resize(coins.size(),vector<int>(amount+1,-1));
+        int coin=recurse(coins,amount,0);
+        if(coin==INT_MAX-1){
+            return -1;
         }
-        for(int i=1;i<coins.size()+1;i++){
-            for(int j=1;j<amount+1;j++){
-                if(j-coins[i-1]>=0){
-                    dp[i][j]=min(dp[i-1][j],1+dp[i][j-coins[i-1]]);
-
-                }
-                else{
-                    dp[i][j]=dp[i-1][j];
-                }
-            }
+        return coin;
+        
+    }
+    int recurse(vector<int>&coins,int amount,int index){
+        if(amount==0){
+            return 0;
         }
-        return dp[coins.size()][amount]==INT_MAX-1 ? -1 : dp[coins.size()][amount];
+        if(index>=coins.size()){
+            return INT_MAX-1;
+            
+        }
+        if(dp[index][amount]!=-1){
+            return dp[index][amount];
+        }
+        if(coins[index]<=amount){
+            return dp[index][amount]=min(1+recurse(coins,amount-coins[index],index),recurse(coins,amount,index+1));
+        }
+        return dp[index][amount]=recurse(coins,amount,index+1);
     }
 };
