@@ -11,29 +11,25 @@
  */
 class Solution {
 public:
+    int bottom_value=0;
+    int curr_level=-1;
     int findBottomLeftValue(TreeNode* root) {
-        int ans=0;
-        queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty()){
-            int size=q.size();
-            for(int i=0;i<size;i++){
-                TreeNode* node=q.front();
-                q.pop();
-                if(i==0){
-                    ans=node->val;
-
-                }
-                if(node->left){
-                    q.push(node->left);
-                }
-                if(node->right){
-                    q.push(node->right);
-                }
-            }
-        }
-        return ans;
+        helper(root,0);
+        return bottom_value;
 
         
+    }
+    void helper(TreeNode* root,int level){
+        if(!root){
+            return ;
+        }
+        if(level>curr_level){
+            bottom_value=root->val;
+            curr_level=level;
+            
+        }
+        helper(root->left,level+1);
+        helper(root->right,level+1);
+
     }
 };
