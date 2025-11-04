@@ -1,14 +1,12 @@
 class Node{
     public:
-        bool isend;
+        bool isleaf;
         Node* links[26];
-
         Node(){
-            isend=false;
+            isleaf=false;
             for(int i=0;i<26;i++){
                 links[i]=nullptr;
             }
-
         }
 
 };
@@ -26,10 +24,12 @@ public:
             if(!curr->links[it-'a']){
                 Node* new_node=new Node();
                 curr->links[it-'a']=new_node;
+
+
             }
-            curr=curr->links[it-'a'];
+            curr=curr->links[it-'a'];            
         }
-        curr->isend=true;
+        curr->isleaf=true;
     }
     
     bool search(string word) {
@@ -37,14 +37,15 @@ public:
         for(auto it: word){
             if(!curr->links[it-'a']){
                 return false;
-            }
-            curr=curr->links[it-'a'];
 
+
+            }
+            curr=curr->links[it-'a'];            
         }
-        if(curr->isend){
+        if(curr->isleaf){
             return true;
         }
-        return false;;
+        return false;
         
     }
     
@@ -53,11 +54,13 @@ public:
         for(auto it: prefix){
             if(!curr->links[it-'a']){
                 return false;
-            }
-            curr=curr->links[it-'a'];
 
+
+            }
+            curr=curr->links[it-'a'];            
         }
         return true;
+
         
     }
 };
