@@ -2,31 +2,30 @@ class DataStream {
 public:
     queue<int> q;
     int max_size;
+    int check;
     DataStream(int value, int k) {
-        q.push(value);
+        check=value;
         max_size=k;
         
     }
     
     bool consec(int num) {
-        if(q.front()!=num){
+        if(check!=num){
             while(!q.empty()){
                 q.pop();
             }
-            q.push(num);
             return false;
         }
         else{
-            if(q.size()==max_size){
-                q.pop();
-                q.push(num);
+            q.push(num);
+            if(q.size()>=max_size){
                 return true;
             }
             else{
-                q.push(num);
                 return false;
             }
         }
+        
 
         
         
